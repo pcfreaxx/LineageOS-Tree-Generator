@@ -63,8 +63,8 @@ jobs:
 
     - name: Clone ROM Dump
       run: |
-        mkdir -p "/home/${DB}_${CN}_LOS"
-        cd "/home/${DB}_${CN}_LOS"
+        mkdir -p "${GITHUB_WORKSPACE}/${DB}_${CN}_LOS"
+        cd "${GITHUB_WORKSPACE}/${DB}_${CN}_LOS"
         git clone "${DU}" -b "${DUB}" dump
 
     - name: Install AOSPDTGEN
@@ -72,9 +72,9 @@ jobs:
 
     - name: Generate Device Tree
       run: |
-        cd "/home/${DB}_${CN}_LOS/dump"
+        cd "${GITHUB_WORKSPACE}/${DB}_${CN}_LOS/dump"
         python3 -m aospdtgen .
-        mv output "/home/${DB}_${CN}_LOS/device_tree"
+        mv output "${GITHUB_WORKSPACE}/${DB}_${CN}_LOS/device_tree"
 
     - name: Setup Git identity
       run: |
@@ -83,7 +83,7 @@ jobs:
 
     - name: Push to GitHub
       run: |
-        cd "/home/${DB}_${CN}_LOS/device_tree"
+        cd "${GITHUB_WORKSPACE}/${DB}_${CN}_LOS/device_tree"
         git init
         git checkout -b "lineage-${CN}"
         git add .
